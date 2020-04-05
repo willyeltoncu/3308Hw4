@@ -262,10 +262,11 @@ $(document).ready(function() {
     // This should be done inside the for loop
     var names = Object.keys(state_info);
     for(var key in state_info){
-
+      var JQid = '#' + names[idIndex];
+      idIndex++;
        var url =`https://api.weatherstack.com/forecast?access_key=5bc82451636190abd9d7afe6fe9b20b5&query=`+ state_info[key].lat + `,` + state_info[key].lng;
-    $.ajax({url:url,dataType:"jsonp"}).then(function(data) {
-                 var JQid = '#AK'; 
+    $.ajax({url:url,ajaxName:JQid,dataType:"jsonp"}).then(function(data) { //Pass id through so ajax will work inside loop
+                JQid = this.ajaxName;
                 console.log(data);
 
                 var temperature = getFarenheitTemp(data.current.temperature);
