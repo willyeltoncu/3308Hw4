@@ -248,46 +248,81 @@ Place this code in the empty space below.
 }
 </script>
         <!-- Import index.js here-->
-<script> $(document).ready(function() {
-    var apiKey = "" // Enter the API key
-    console.log(`state_info is: ${state_info}`) // Notice the templating here, use that when you form your url
+<script>
+function getFarenheitTemp(temp){
+      return (9*temp/5)+32;
+}
+$(document).ready(function() {
+    var idIndex = 0;// Enter the API key
 
 
     // TODO
     // Iterate over the state_info array and call the api for each state_name to get the current temperature
     // Example to call the api using state_name
     // This should be done inside the for loop
-    var state_obj = state_info[0]
+    var names = Object.keys(state_info);
     for(var key in state_info){
-      console.log(state_info[key]);
 
-    var url =`https://api.weatherstack.com/forecast?access_key=5bc82451636190abd9d7afe6fe9b20b5&query=`+ state_info[key].lat + `,` + state_info[key].lng;
+       var url =`https://api.weatherstack.com/forecast?access_key=5bc82451636190abd9d7afe6fe9b20b5&query=`+ state_info[key].lat + `,` + state_info[key].lng;
+    $.ajax({url:url,dataType:"jsonp"}).then(function(data) {
+                 var JQid = '#AK'; 
+                console.log(data);
 
-    $.ajax({url:url, dataType:"jsonp"}).then(function(data) {
-
-                console.log(data)
-                var temperature = null
+                var temperature = getFarenheitTemp(data.current.temperature);
                 // TODO
                 // Fill in the RHS of the below line and uncomment it. Remember how we accessed the temperature in Lab 9. Remember to convert it into farenheit.
                 // var temperature =
 
-                console.log(temperature)
+                console.log(temperature, JQid);
 
                 //TODO
                 // Default color gray
+
                 // Create a series of if else blocks to set the color for the state based on the temperature
                 // Less than equal to 10F	#6495ED
+                if(temperature < 11){
+                  $(JQid).css('fill', "#6495ED");
+                }
                 // Between 11F and 20F	#7FFFD4
+                if(11 <= temperature && temperature <= 20){
+                  $(JQid).css('fill', "#7FFFD4");
+                }
                 // Between 21F and 30F	#0000FF
+                if(21 <= temperature && temperature <= 30){
+                  $(JQid).css('fill', "#0000FF");
+                }
                 // Between 31F and 40F	#008B8B
+                if(31 <= temperature && temperature <=  40){
+                  $(JQid).css('fill', "#008B8B");
+                }
                 // Between 41F and 50F	#00BFFF
+                if(41 <= temperature && temperature <= 50){
+                  $(JQid).css('fill', "#00BFFF");
+                }
                 // Between 51F and 60F	#F08080
+                if(51 <= temperature && temperature <= 60){
+                  $(JQid).css('fill', "#F08080");
+                }
                 // Between 61F and 70F	#CD5C5C
+                if(61 <= temperature && temperature <= 70){
+                  $(JQid).css('fill', "#CD5C5C");
+                }
                 // Between 71F and equal to 80F	#8B0000
+                if(71 <= temperature && temperature <= 80){
+                  $(JQid).css('fill', "#8B0000");
+                }
                 // Between 81F and equal to 90F	#B22222
-                // Greater than 90F	#FF0000
+                if(81 <= temperature && temperature <= 90){
+                  $(JQid).css('fill', "#B22222");
 
-                $('#CO').css('fill', "#F08080");   // Example on how to fill colors for your state.
+                }
+                // Greater than 90F	#FF0000
+                if(90 < temperature){
+                  $(JQid).css('fill', "#FF0000");
+                }
+                //
+                // $('#CO').css('fill', "#F08080");
+                // return; // Example on how to fill colors for your state.
     });
   }
 });
